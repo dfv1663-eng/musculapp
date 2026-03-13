@@ -409,6 +409,11 @@ const App = (() => {
             </div>
           </button>
         </div>
+
+        <div class="px-6 mt-10 mb-6 text-center">
+          <p class="text-zinc-600 text-[10px] font-light">&copy; ${new Date().getFullYear()} Diego Flores. Todos los derechos reservados.</p>
+          <a href="mailto:dfv1663@gmail.com" class="text-zinc-500 text-[10px] font-light hover:text-emerald-400 transition">dfv1663@gmail.com</a>
+        </div>
       </div>
     `);
   }
