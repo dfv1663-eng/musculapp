@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#09090b">
+  <title>MusculApp</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', '-apple-system', 'system-ui', 'BlinkMacSystemFont', 'sans-serif'] },
+        }
+      }
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+    :root { --safe-top: env(safe-area-inset-top); --safe-bottom: env(safe-area-inset-bottom); }
+    body { background: #09090b; -webkit-tap-highlight-color: transparent; overscroll-behavior: none; }
+    input[type="number"] { -moz-appearance: textfield; }
+    input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+    /* Animations */
+    .fade-in { animation: fadeIn .35s cubic-bezier(.22,1,.36,1); }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .slide-up { animation: slideUp .4s cubic-bezier(.22,1,.36,1); }
+    @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+    .timer-pulse { animation: tPulse 1.5s ease-in-out infinite; }
+    @keyframes tPulse { 0%,100% { opacity: 1; } 50% { opacity: .5; } }
+    .check-pop { animation: checkPop .35s cubic-bezier(.34,1.56,.64,1); }
+    @keyframes checkPop { 0% { transform: scale(0); } 100% { transform: scale(1); } }
+    .stagger-1 { animation-delay: 50ms; }
+    .stagger-2 { animation-delay: 100ms; }
+    .stagger-3 { animation-delay: 150ms; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { display: none; }
+    * { scrollbar-width: none; }
+
+    /* Card depth */
+    .card-depth { box-shadow: inset 0 1px 0 0 rgba(255,255,255,.03), 0 1px 3px 0 rgba(0,0,0,.3); }
+
+    /* Accent bar for superseries */
+    .ss-accent { border-left: 2.5px solid rgba(14,165,233,.4); }
+
+    /* Underline inputs */
+    .input-minimal {
+      background: transparent;
+      border: none;
+      border-bottom: 1.5px solid #3f3f46;
+      border-radius: 0;
+      padding: 8px 4px;
+      font-size: 14px;
+      font-weight: 500;
+      text-align: center;
+      color: #fafafa;
+      transition: border-color .2s;
+      min-height: 44px;
+      width: 100%;
+    }
+    .input-minimal:focus {
+      outline: none;
+      border-bottom-color: #10b981;
+    }
+    .input-minimal::placeholder { color: #52525b; font-weight: 400; }
+    .input-minimal.done { color: #71717a; border-bottom-color: #27272a; }
+
+    /* Tab bar */
+    .tab-active { color: #fafafa; }
+    .tab-active .tab-dot { opacity: 1; }
+    .tab-inactive { color: #52525b; }
+  </style>
+</head>
+<body class="font-sans text-zinc-50 min-h-screen antialiased">
+  <div id="app"></div>
+
+  <!-- Modal Overlay -->
+  <div id="modal-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-md z-50 hidden items-end sm:items-center justify-center" style="padding-top: var(--safe-top);">
+    <div id="modal-content" class="bg-zinc-900/95 backdrop-blur-xl rounded-t-3xl sm:rounded-2xl w-full sm:max-w-md max-h-[90vh] overflow-y-auto slide-up border-t border-zinc-700/50 sm:border sm:border-zinc-700/50" style="padding-bottom: var(--safe-bottom);">
+      <!-- Handle bar for mobile -->
+      <div class="sm:hidden flex justify-center pt-3 pb-1">
+        <div class="w-10 h-1 rounded-full bg-zinc-600"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Timer Banner -->
+  <div id="timer-banner" class="fixed z-40 hidden" style="bottom: calc(68px + var(--safe-bottom, 0px)); left: 16px; right: 16px;">
+    <div class="bg-sky-500/90 backdrop-blur-xl rounded-2xl px-5 py-3.5 flex items-center justify-between shadow-lg shadow-sky-500/20">
+      <div class="flex items-center gap-3">
+        <svg class="w-5 h-5 timer-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <div>
+          <span id="timer-text" class="text-lg font-semibold tabular-nums tracking-tight">00:00</span>
+          <span class="text-sky-100/70 text-xs ml-1.5">descanso</span>
+        </div>
+      </div>
+      <button onclick="App.skipTimer()" class="text-sm font-medium bg-white/20 rounded-xl px-4 py-2 min-h-[44px] flex items-center active:bg-white/30 transition-all">Saltar</button>
+    </div>
+  </div>
+
+  <!-- Bottom Tab Bar -->
+  <nav id="tab-bar" class="fixed bottom-0 left-0 right-0 z-30 bg-zinc-950/80 backdrop-blur-xl border-t border-zinc-800/50" style="padding-bottom: var(--safe-bottom);">
+    <div class="flex items-center justify-around h-[68px]">
+      <button onclick="App.switchTab('train')" id="tab-train" class="flex flex-col items-center justify-center gap-1 min-w-[64px] min-h-[44px] transition-colors">
+        <svg class="w-[22px] h-[22px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M6.5 6.5h11M6.5 17.5h11M3 12h3m12 0h3M6 12a2 2 0 01-2-2V8.5a1 1 0 011-1h1a1 1 0 011 1v5a1 1 0 01-1 1H5a1 1 0 01-1-1V12zm12 0a2 2 0 002-2V8.5a1 1 0 00-1-1h-1a1 1 0 00-1 1v5a1 1 0 001 1h1a1 1 0 001-1V12z"/></svg>
+        <span class="text-[10px] font-medium tracking-wide">Entrenar</span>
+        <div class="tab-dot w-1 h-1 rounded-full bg-emerald-400 opacity-0 transition-opacity -mt-0.5"></div>
+      </button>
+      <button onclick="App.switchTab('evolution')" id="tab-evolution" class="flex flex-col items-center justify-center gap-1 min-w-[64px] min-h-[44px] transition-colors">
+        <svg class="w-[22px] h-[22px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M3 3v18h18"/><path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/></svg>
+        <span class="text-[10px] font-medium tracking-wide">Progreso</span>
+        <div class="tab-dot w-1 h-1 rounded-full bg-emerald-400 opacity-0 transition-opacity -mt-0.5"></div>
+      </button>
+      <button onclick="App.switchTab('profile')" id="tab-profile" class="flex flex-col items-center justify-center gap-1 min-w-[64px] min-h-[44px] transition-colors">
+        <svg class="w-[22px] h-[22px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span class="text-[10px] font-medium tracking-wide">Perfil</span>
+        <div class="tab-dot w-1 h-1 rounded-full bg-emerald-400 opacity-0 transition-opacity -mt-0.5"></div>
+      </button>
+    </div>
+  </nav>
+
+  <script src="app.js"></script>
+</body>
+</html>
