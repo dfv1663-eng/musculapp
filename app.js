@@ -369,7 +369,7 @@ const App = (() => {
     const totalSessions = Object.values(h).reduce((s, a) => s + a.length, 0);
 
     html($('app'), `
-      <div class="fade-in pb-24" style="padding-top: calc(var(--safe-top, 0px) + 20px);">
+      <div class="fade-in pb-40" style="padding-top: calc(var(--safe-top, 0px) + 20px);">
         <div class="px-6 pb-6 text-center">
           <div class="w-20 h-20 rounded-full bg-zinc-800/80 border border-zinc-700/50 flex items-center justify-center mx-auto mb-4 text-zinc-400">
             ${ICONS.user.replace('w-5 h-5', 'w-8 h-8')}
