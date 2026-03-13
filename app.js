@@ -44,6 +44,104 @@ const App = (() => {
     { key: 'heart', label: 'Cardio' },
   ];
 
+  // ---- EXERCISE DATABASE ----
+  // Each entry: { nombre, grupo, video (YouTube ID) }
+  // Videos from: Harbiz, JEFIT, ScottHermanFitness, Jeff Nippard, Renaissance Periodization
+  const EXERCISE_DB = [
+    // PECHO
+    { nombre: 'Press Plano con Barra', grupo: 'Pecho', video: 'rT7DgCr-3pg' },
+    { nombre: 'Press Plano con Mancuernas', grupo: 'Pecho', video: 'VmB1G1K7v94' },
+    { nombre: 'Press Inclinado con Barra', grupo: 'Pecho', video: 'SrqOu55lrYU' },
+    { nombre: 'Press Inclinado con Mancuernas', grupo: 'Pecho', video: '8iPEnn-ltC8' },
+    { nombre: 'Press Inclinado en Barra Smith', grupo: 'Pecho', video: 'yR9U3RlMUao' },
+    { nombre: 'Press Declinado con Barra', grupo: 'Pecho', video: 'LfyQBUKR8SE' },
+    { nombre: 'Aperturas con Mancuernas', grupo: 'Pecho', video: 'eozdVDA78K0' },
+    { nombre: 'Aperturas en Polea', grupo: 'Pecho', video: 'Iwe6AmxVf7o' },
+    { nombre: 'Fondos en Paralelas', grupo: 'Pecho', video: '2z8JmcrW-As' },
+    { nombre: 'Crossover en Polea Alta', grupo: 'Pecho', video: 'taI4XduLpTk' },
+    { nombre: 'Crossover en Polea Baja', grupo: 'Pecho', video: 'taI4XduLpTk' },
+    // ESPALDA
+    { nombre: 'Dorsalera', grupo: 'Espalda', video: 'CAwf7n6Luuc' },
+    { nombre: 'Dominadas', grupo: 'Espalda', video: 'eGo4IYlbE5g' },
+    { nombre: 'Dominadas colgado pasivas', grupo: 'Espalda', video: 'eGo4IYlbE5g' },
+    { nombre: 'Remo con Barra', grupo: 'Espalda', video: 'FWJR5Ve8bnQ' },
+    { nombre: 'Remo con Pecho Apoyado', grupo: 'Espalda', video: '-kohAQnKGJA' },
+    { nombre: 'Remo Unilateral en Cable Medio', grupo: 'Espalda', video: 'xQNrFHEMkIc' },
+    { nombre: 'Remo en Polea Baja', grupo: 'Espalda', video: 'GZbfZ033f74' },
+    { nombre: 'Pullover en Polea', grupo: 'Espalda', video: 'AjCCGN2kR_I' },
+    { nombre: 'Face Pull', grupo: 'Espalda', video: 'rep-qVOkqgk' },
+    // HOMBROS
+    { nombre: 'Press Militar con Barra', grupo: 'Hombros', video: '2yjwXTZQDDI' },
+    { nombre: 'Press Militar con Mancuernas', grupo: 'Hombros', video: 'qEwKCR5JCog' },
+    { nombre: 'Vuelos Laterales con Mancuernas', grupo: 'Hombros', video: '3VcKaXpzqRo' },
+    { nombre: 'Vuelos Frontales', grupo: 'Hombros', video: 'gzDVHahWRQU' },
+    { nombre: 'Pajaros con Mancuernas', grupo: 'Hombros', video: 'ttvfGg9d76c' },
+    { nombre: 'Elevaciones Laterales en Polea', grupo: 'Hombros', video: 'XPPfnSEATJA' },
+    { nombre: 'Movilidad completa de hombro', grupo: 'Hombros', video: 'eGo4IYlbE5g' },
+    // BICEPS
+    { nombre: 'Curl con Barra', grupo: 'Bíceps', video: 'kwG2ipFRgFo' },
+    { nombre: 'Curl con Mancuernas', grupo: 'Bíceps', video: 'ykJmrZ5v0Oo' },
+    { nombre: 'Curl Martillo', grupo: 'Bíceps', video: 'zC3nLlEVAjI' },
+    { nombre: 'Bicep en Cable', grupo: 'Bíceps', video: 'NFzTWp2qpiE' },
+    { nombre: 'Bicep con Mancuernas en Banco 45°', grupo: 'Bíceps', video: 'soxrZlIl35U' },
+    { nombre: 'Curl en Banco Scott', grupo: 'Bíceps', video: 'soxrZlIl35U' },
+    // TRICEPS
+    { nombre: 'Tricep Pushdown', grupo: 'Tríceps', video: '2-LAMcpzODU' },
+    { nombre: 'Press Frances con Barra', grupo: 'Tríceps', video: 'd_KZxkY_0cM' },
+    { nombre: 'Press Frances con Mancuernas', grupo: 'Tríceps', video: 'ir5PsbniVSc' },
+    { nombre: 'Extensión de Tríceps en Polea', grupo: 'Tríceps', video: '2-LAMcpzODU' },
+    { nombre: 'Patada de Tríceps', grupo: 'Tríceps', video: '6SS6K3lAwZ8' },
+    // PIERNAS - CUÁDRICEPS
+    { nombre: 'Sentadilla con Barra', grupo: 'Piernas', video: 'ultWZbUMPL8' },
+    { nombre: 'Sentadilla con Barra Smith', grupo: 'Piernas', video: 'yR9U3RlMUao' },
+    { nombre: 'Sentadilla Bulgara con Mancuernas', grupo: 'Piernas', video: '2C-uNgKwPLE' },
+    { nombre: 'Hack Squat', grupo: 'Piernas', video: '0tn5K9NlCGg' },
+    { nombre: 'Prensa de Piernas', grupo: 'Piernas', video: 'IZxyjW7MPJQ' },
+    { nombre: 'Prensa Unilateral', grupo: 'Piernas', video: 'IZxyjW7MPJQ' },
+    { nombre: 'Camilla de Cuadriceps', grupo: 'Piernas', video: 'YyvSfVjQeL0' },
+    { nombre: 'Estocadas con Mancuernas', grupo: 'Piernas', video: 'D7KaRcUTQeE' },
+    // PIERNAS - ISQUIOTIBIALES
+    { nombre: 'Camilla de Isquiotibiales', grupo: 'Piernas', video: '1Tq3QdYUuHs' },
+    { nombre: 'Camilla de Isquiotibiales 2', grupo: 'Piernas', video: '1Tq3QdYUuHs' },
+    { nombre: 'Peso Muerto Rumano', grupo: 'Piernas', video: '7AaaYhMqSbY' },
+    { nombre: 'Peso Muerto Convencional', grupo: 'Piernas', video: 'op9kVnSso6Q' },
+    { nombre: 'Hip Thrust', grupo: 'Piernas', video: 'SEdqd1s0OKc' },
+    // PIERNAS - GEMELOS
+    { nombre: 'Gemelos en prensa', grupo: 'Piernas', video: 'JbyjNymZOt0' },
+    { nombre: 'Gemelos de pie', grupo: 'Piernas', video: 'gwLzBJYoWlI' },
+    { nombre: 'Gemelos sentado', grupo: 'Piernas', video: 'JbyjNymZOt0' },
+    // ZONA MEDIA
+    { nombre: 'Crunch en Banco Declinado', grupo: 'Core', video: '7UVgs18Y1P4' },
+    { nombre: 'Anti Rotacional con Barra', grupo: 'Core', video: 'pg6fix3KBBU' },
+    { nombre: 'Ruedita Abdominal', grupo: 'Core', video: 'rqiTPmfCBPg' },
+    { nombre: 'Twist Sovietico con Disco', grupo: 'Core', video: 'wkD8rjkodUI' },
+    { nombre: 'Plancha', grupo: 'Core', video: 'ASdvN_XEl_c' },
+    { nombre: 'Plancha Lateral', grupo: 'Core', video: 'K2VljzCC16g' },
+    // MOVILIDAD / CALENTAMIENTO
+    { nombre: 'Extensiones torácicas con FoamRoller', grupo: 'Movilidad', video: 'SxQkVhp5sOI' },
+    { nombre: 'Estiramiento Gluteo', grupo: 'Movilidad', video: 'ZaqP_Fj8fLk' },
+    { nombre: 'Cadera + Isquio Estiramiento', grupo: 'Movilidad', video: 'ZaqP_Fj8fLk' },
+    { nombre: 'Estiramiento de la cobra', grupo: 'Movilidad', video: 'JDcdhTuycOI' },
+    { nombre: 'Estiramiento caderas 90/90', grupo: 'Movilidad', video: 'GFEf_3FSfAQ' },
+    { nombre: 'Estiramiento de flexor de cadera', grupo: 'Movilidad', video: 'YQmpO9VT2X4' },
+  ];
+
+  function getExerciseVideo(nombre) {
+    const ex = EXERCISE_DB.find(e => e.nombre.toLowerCase() === nombre.toLowerCase());
+    return ex ? ex.video : null;
+  }
+
+  function getExerciseGroup(nombre) {
+    const ex = EXERCISE_DB.find(e => e.nombre.toLowerCase() === nombre.toLowerCase());
+    return ex ? ex.grupo : null;
+  }
+
+  function searchExercises(query) {
+    if (!query || query.length < 2) return [];
+    const q = query.toLowerCase();
+    return EXERCISE_DB.filter(e => e.nombre.toLowerCase().includes(q)).slice(0, 8);
+  }
+
   // ---- DEFAULT DATA ----
   const defaultRoutines = [
     {
@@ -236,7 +334,7 @@ const App = (() => {
           <div class="space-y-3">
             ${rutinas.map((r, i) => `
               <div class="bg-zinc-900/40 border border-zinc-800/60 rounded-2xl card-depth overflow-hidden fade-in stagger-${Math.min(i + 1, 3)}">
-                <button onclick="App.startWorkout(${i})" class="w-full p-5 text-left active:bg-white/[.02] transition-colors">
+                <button onclick="App.showRoutineDetail(${i})" class="w-full p-5 text-left active:bg-white/[.02] transition-colors">
                   <div class="flex items-center gap-4">
                     <div class="w-11 h-11 rounded-xl bg-zinc-800/80 flex items-center justify-center text-zinc-400 flex-shrink-0">
                       ${getIcon(r.icono)}
@@ -526,14 +624,23 @@ const App = (() => {
 
   function renderEditorExercise(bi, e, ei, b) {
     const showS = !b.es_superserie;
+    const videoId = getExerciseVideo(e.nombre);
+    const thumbUrl = videoId ? `https://img.youtube.com/vi/${videoId}/mqdefault.jpg` : '';
     return `<div class="px-4 py-3 space-y-2">
       <div class="flex items-center gap-2">
         <div class="flex flex-col gap-0.5 mr-0.5">
           ${ei > 0 ? `<button onclick="App.moveExercise(${bi},${ei},-1)" class="w-7 h-7 rounded flex items-center justify-center text-zinc-600 active:text-zinc-300 transition">${ICONS.arrowUp}</button>` : '<div class="w-7 h-7"></div>'}
           ${ei < b.ejercicios.length - 1 ? `<button onclick="App.moveExercise(${bi},${ei},1)" class="w-7 h-7 rounded flex items-center justify-center text-zinc-600 active:text-zinc-300 transition">${ICONS.arrowDown}</button>` : '<div class="w-7 h-7"></div>'}
         </div>
-        <input type="text" value="${esc(e.nombre)}" placeholder="Nombre del ejercicio" onchange="App.updateExercise(${bi},${ei},'nombre',this.value)"
-          class="flex-1 bg-transparent border-b border-zinc-800/30 px-1 py-2 text-sm font-medium placeholder:text-zinc-700 focus:border-emerald-500/50 focus:outline-none transition min-h-[44px]">
+        ${thumbUrl ? `<img src="${thumbUrl}" class="ac-thumb" alt="" loading="lazy">` : ''}
+        <div class="flex-1 relative">
+          <input type="text" value="${esc(e.nombre)}" placeholder="Buscar ejercicio..." id="exinp-${bi}-${ei}"
+            oninput="App.onExerciseInput(${bi},${ei},this.value)" onchange="App.updateExercise(${bi},${ei},'nombre',this.value)"
+            onfocus="App.onExerciseInput(${bi},${ei},this.value)"
+            onblur="setTimeout(()=>{const d=document.getElementById('ac-${bi}-${ei}');if(d)d.remove();},200)"
+            class="w-full bg-transparent border-b border-zinc-800/30 px-1 py-2 text-sm font-medium placeholder:text-zinc-700 focus:border-emerald-500/50 focus:outline-none transition min-h-[44px]" autocomplete="off">
+          <div id="ac-${bi}-${ei}"></div>
+        </div>
         <button onclick="App.removeExercise(${bi},${ei})" class="w-8 h-8 rounded-lg flex items-center justify-center text-zinc-700 active:text-red-400 transition min-h-[44px] min-w-[44px]">${ICONS.x}</button>
       </div>
       <div class="grid ${showS ? 'grid-cols-3' : 'grid-cols-2'} gap-3 pl-9">
@@ -562,6 +669,27 @@ const App = (() => {
   function removeExercise(bi, ei) { readEditorFields(); const b = state.editingRoutine.bloques[bi]; b.ejercicios.length <= 1 ? state.editingRoutine.bloques.splice(bi, 1) : b.ejercicios.splice(ei, 1); renderEditor(); }
   function moveExercise(bi, ei, dir) { readEditorFields(); const ex = state.editingRoutine.bloques[bi].ejercicios, ni = ei + dir; if (ni < 0 || ni >= ex.length) return; [ex[ei], ex[ni]] = [ex[ni], ex[ei]]; renderEditor(); }
   function updateExercise(bi, ei, f, v) { readEditorFields(); state.editingRoutine.bloques[bi].ejercicios[ei][f] = v; }
+  function onExerciseInput(bi, ei, val) {
+    const dropId = `ac-${bi}-${ei}`;
+    const existing = document.getElementById(dropId);
+    if (existing) existing.innerHTML = '';
+    const results = searchExercises(val);
+    if (!results.length) return;
+    let drop = document.getElementById(dropId);
+    if (!drop) return;
+    drop.innerHTML = `<div class="ac-dropdown">${results.map(ex => {
+      const thumb = ex.video ? `https://img.youtube.com/vi/${ex.video}/mqdefault.jpg` : '';
+      return `<div class="ac-item" onmousedown="App.pickExercise(${bi},${ei},'${esc(ex.nombre)}')">
+        ${thumb ? `<img src="${thumb}" class="ac-thumb" alt="" loading="lazy">` : '<div class="ac-thumb"></div>'}
+        <div><div class="ac-name">${ex.nombre}</div><div class="ac-group">${ex.grupo}</div></div>
+      </div>`;
+    }).join('')}</div>`;
+  }
+  function pickExercise(bi, ei, nombre) {
+    readEditorFields();
+    state.editingRoutine.bloques[bi].ejercicios[ei].nombre = nombre;
+    renderEditor();
+  }
   function cancelEditor() { updateTabBar('train'); renderHome(); }
   function saveEditor() {
     readEditorFields(); const r = state.editingRoutine;
@@ -573,6 +701,79 @@ const App = (() => {
     saveRoutines(all); showToast(state.editingIndex === -1 ? 'Rutina creada' : 'Guardado'); updateTabBar('train'); renderHome();
   }
   function deleteFromEditor() { showConfirmModal(`Eliminar "${state.editingRoutine.nombre}"`, 'No se puede deshacer.', () => { if (state.editingIndex >= 0) { const r = getRoutines(); r.splice(state.editingIndex, 1); saveRoutines(r); } updateTabBar('train'); renderHome(); }, null, 'Eliminar'); }
+
+  // ===========================================================
+  // ROUTINE DETAIL (Preview before workout)
+  // ===========================================================
+  function showRoutineDetail(i) {
+    const r = getRoutines()[i];
+    state.screen = 'detail';
+    updateTabBar('train', false);
+    const totalEx = r.bloques.reduce((s, b) => s + b.ejercicios.length, 0);
+
+    html($('app'), `
+      <div class="fade-in" style="padding-top: calc(var(--safe-top, 0px) + 8px);">
+        <div class="px-4 flex items-center justify-between sticky top-0 bg-zinc-950/90 backdrop-blur-xl z-30 py-3 border-b border-zinc-800/30">
+          <button onclick="App.renderHome()" class="w-10 h-10 rounded-xl flex items-center justify-center active:bg-zinc-800 transition min-h-[44px] min-w-[44px] text-zinc-400">${ICONS.chevronLeft}</button>
+          <div class="flex items-center gap-2">
+            <button onclick="App.editRoutine(${i})" class="p-2.5 rounded-lg text-zinc-500 active:bg-zinc-800 transition min-h-[44px] min-w-[44px] flex items-center justify-center">${ICONS.edit}</button>
+          </div>
+        </div>
+
+        <div class="px-5 pt-4 pb-2">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-12 h-12 rounded-xl bg-zinc-800/80 flex items-center justify-center text-zinc-400 flex-shrink-0">${getIcon(r.icono)}</div>
+            <div>
+              <h1 class="text-xl font-bold tracking-tight">${r.nombre}</h1>
+              <p class="text-zinc-500 text-xs font-light mt-0.5">${r.descripcion}</p>
+            </div>
+          </div>
+          <p class="text-zinc-600 text-[11px] font-light mt-2">${r.bloques.length} bloques · ${totalEx} ejercicios</p>
+        </div>
+
+        <div class="px-4 py-3 space-y-4 pb-32">
+          ${r.bloques.map(b => {
+            const isSS = b.es_superserie;
+            return `
+            <div>
+              <div class="flex items-center justify-between px-1 mb-2">
+                <h3 class="text-zinc-400 text-xs font-semibold uppercase tracking-wider">${b.tipo}</h3>
+                ${isSS ? `<span class="text-[9px] bg-sky-500/10 text-sky-400/80 px-2 py-0.5 rounded-full font-medium">SS ×${b.series_total || 3}</span>` : ''}
+              </div>
+              <div class="bg-zinc-900/40 border ${isSS ? 'border-sky-500/15 ss-accent' : 'border-zinc-800/50'} rounded-2xl card-depth overflow-hidden divide-y ${isSS ? 'divide-sky-500/5' : 'divide-zinc-800/20'}">
+                ${b.ejercicios.map(e => {
+                  const vid = getExerciseVideo(e.nombre);
+                  const thumb = vid ? `https://img.youtube.com/vi/${vid}/mqdefault.jpg` : '';
+                  const series = isSS ? '' : (e.series ? `${e.series} series  | ` : '');
+                  return `
+                  <div class="flex items-center gap-3 px-3 py-3">
+                    ${thumb ? `
+                    <div class="vid-thumb relative flex-shrink-0" onclick="App.openVideo('${vid}')">
+                      <img src="${thumb}" class="w-full h-full object-cover rounded-[10px]" alt="" loading="lazy">
+                      <svg class="vid-play" viewBox="0 0 24 24" fill="white" opacity="0.9"><polygon points="8,5 19,12 8,19"/></svg>
+                    </div>` : '<div class="w-14 h-14 rounded-[10px] bg-zinc-800/50 flex-shrink-0"></div>'}
+                    <div class="flex-1 min-w-0">
+                      <p class="text-sm font-medium text-zinc-200 truncate">${e.nombre}</p>
+                      <p class="text-zinc-600 text-[11px] font-light mt-0.5">${series}${e.objetivo}</p>
+                    </div>
+                    ${vid ? `<button onclick="App.openVideo('${vid}')" class="text-zinc-700 active:text-zinc-400 transition p-1">
+                      <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H7M17 7v10"/></svg>
+                    </button>` : ''}
+                  </div>`;
+                }).join('')}
+              </div>
+            </div>`;
+          }).join('')}
+        </div>
+
+        <div class="fixed bottom-0 left-0 right-0 z-30 px-5 pb-6 pt-3 bg-gradient-to-t from-zinc-950 via-zinc-950/95 to-transparent" style="padding-bottom: calc(var(--safe-bottom, 0px) + 24px);">
+          <button onclick="App.startWorkout(${i})" class="w-full bg-zinc-200 text-zinc-950 font-semibold rounded-2xl py-4 text-[15px] active:bg-zinc-300 transition min-h-[52px] shadow-lg">
+            Iniciar entrenamiento
+          </button>
+        </div>
+      </div>
+    `);
+  }
 
   // ===========================================================
   // WORKOUT
@@ -625,11 +826,22 @@ const App = (() => {
       </div>`;
   }
 
+  function openVideo(videoId) {
+    window.open(`https://www.youtube.com/watch?v=${videoId}`, '_blank');
+  }
+
   function renderWorkoutExercise(b, e) {
     const sets = state.workoutData[e.nombre] || [], allDone = sets.length > 0 && sets.every(s => s.done);
+    const videoId = getExerciseVideo(e.nombre);
+    const thumbUrl = videoId ? `https://img.youtube.com/vi/${videoId}/mqdefault.jpg` : '';
     return `
       <div class="px-4 py-4">
-        <div class="flex items-center justify-between mb-3">
+        <div class="flex items-center gap-3 mb-3">
+          ${thumbUrl ? `
+          <div class="vid-thumb relative" onclick="App.openVideo('${videoId}')">
+            <img src="${thumbUrl}" class="w-full h-full object-cover rounded-[10px]" alt="" loading="lazy">
+            <svg class="vid-play" viewBox="0 0 24 24" fill="white" opacity="0.9"><polygon points="8,5 19,12 8,19"/></svg>
+          </div>` : ''}
           <div class="flex-1 min-w-0">
             <p class="font-medium text-[13px] tracking-tight ${allDone ? 'text-emerald-400/80' : 'text-zinc-200'}">${e.nombre}</p>
             <p class="text-zinc-600 text-[11px] font-light mt-0.5">${e.objetivo}${e.descanso > 0 ? ` · ${e.descanso}s` : ''}</p>
@@ -904,10 +1116,10 @@ const App = (() => {
   document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', init) : init();
 
   return {
-    renderHome, startWorkout, updateSet, toggleSet, confirmExit, finishWorkout,
+    renderHome, showRoutineDetail, startWorkout, updateSet, toggleSet, confirmExit, finishWorkout, openVideo,
     showHistoryModal, showExportModal, closeModal, skipTimer, importData,
     newRoutine, editRoutine, duplicateRoutine, deleteRoutineConfirm, cancelEditor, saveEditor, deleteFromEditor,
-    toggleIconPicker, pickIcon, updateBlock, addBlock, removeBlock, addExercise, removeExercise, moveExercise, updateExercise,
+    toggleIconPicker, pickIcon, updateBlock, addBlock, removeBlock, addExercise, removeExercise, moveExercise, updateExercise, onExerciseInput, pickExercise,
     switchTab, updateTabBar, renderEvolution, renderProfile, editProfileName, saveProfileName,
     _ok: () => {}, _alt: () => {},
   };
