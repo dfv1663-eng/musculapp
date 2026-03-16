@@ -53,7 +53,7 @@ const App = (() => {
     { nombre: 'Press Plano con Mancuernas', grupo: 'Pecho', video: 'VmB1G1K7v94' },
     { nombre: 'Press Inclinado con Barra', grupo: 'Pecho', video: 'SrqOu55lrYU' },
     { nombre: 'Press Inclinado con Mancuernas', grupo: 'Pecho', video: '8iPEnn-ltC8' },
-    { nombre: 'Press Inclinado en Barra Smith', grupo: 'Pecho', video: 'yR9U3RlMUao' },
+    { nombre: 'Press Inclinado en Barra Smith', grupo: 'Pecho', video: 'gRVjAtPip0Y' },
     { nombre: 'Press Declinado con Barra', grupo: 'Pecho', video: 'LfyQBUKR8SE' },
     { nombre: 'Aperturas con Mancuernas', grupo: 'Pecho', video: 'eozdVDA78K0' },
     { nombre: 'Aperturas en Polea', grupo: 'Pecho', video: 'Iwe6AmxVf7o' },
@@ -65,23 +65,23 @@ const App = (() => {
     { nombre: 'Dominadas', grupo: 'Espalda', video: 'eGo4IYlbE5g' },
     { nombre: 'Dominadas colgado pasivas', grupo: 'Espalda', video: 'eGo4IYlbE5g' },
     { nombre: 'Remo con Barra', grupo: 'Espalda', video: 'FWJR5Ve8bnQ' },
-    { nombre: 'Remo con Pecho Apoyado', grupo: 'Espalda', video: '-kohAQnKGJA' },
-    { nombre: 'Remo Unilateral en Cable Medio', grupo: 'Espalda', video: 'xQNrFHEMkIc' },
+    { nombre: 'Remo con Pecho Apoyado', grupo: 'Espalda', video: 'oKNjFM1bxAs' },
+    { nombre: 'Remo Unilateral en Cable Medio', grupo: 'Espalda', video: 'RYPM7ipvQn8' },
     { nombre: 'Remo en Polea Baja', grupo: 'Espalda', video: 'GZbfZ033f74' },
-    { nombre: 'Pullover en Polea', grupo: 'Espalda', video: 'AjCCGN2kR_I' },
+    { nombre: 'Pullover en Polea', grupo: 'Espalda', video: 'geenhiHju-o' },
     { nombre: 'Face Pull', grupo: 'Espalda', video: 'rep-qVOkqgk' },
     // HOMBROS
     { nombre: 'Press Militar con Barra', grupo: 'Hombros', video: '2yjwXTZQDDI' },
     { nombre: 'Press Militar con Mancuernas', grupo: 'Hombros', video: 'qEwKCR5JCog' },
     { nombre: 'Vuelos Laterales con Mancuernas', grupo: 'Hombros', video: '3VcKaXpzqRo' },
-    { nombre: 'Vuelos Frontales', grupo: 'Hombros', video: 'gzDVHahWRQU' },
+    { nombre: 'Vuelos Frontales', grupo: 'Hombros', video: 'jk7YrK79ciA' },
     { nombre: 'Pajaros con Mancuernas', grupo: 'Hombros', video: 'ttvfGg9d76c' },
     { nombre: 'Elevaciones Laterales en Polea', grupo: 'Hombros', video: 'XPPfnSEATJA' },
     { nombre: 'Movilidad completa de hombro', grupo: 'Hombros', video: 'eGo4IYlbE5g' },
     // BICEPS
-    { nombre: 'Curl con Barra', grupo: 'Bíceps', video: 'kwG2ipFRgFo' },
+    { nombre: 'Curl con Barra', grupo: 'Bíceps', video: 'WnDxMH-adp8' },
     { nombre: 'Curl con Mancuernas', grupo: 'Bíceps', video: 'ykJmrZ5v0Oo' },
-    { nombre: 'Curl Martillo', grupo: 'Bíceps', video: 'zC3nLlEVAjI' },
+    { nombre: 'Curl Martillo', grupo: 'Bíceps', video: 'Xfp9_TCvba0' },
     { nombre: 'Bicep en Cable', grupo: 'Bíceps', video: 'NFzTWp2qpiE' },
     { nombre: 'Bicep con Mancuernas en Banco 45°', grupo: 'Bíceps', video: 'soxrZlIl35U' },
     { nombre: 'Curl en Banco Scott', grupo: 'Bíceps', video: 'soxrZlIl35U' },
@@ -93,9 +93,9 @@ const App = (() => {
     { nombre: 'Patada de Tríceps', grupo: 'Tríceps', video: '6SS6K3lAwZ8' },
     // PIERNAS - CUÁDRICEPS
     { nombre: 'Sentadilla con Barra', grupo: 'Piernas', video: 'ultWZbUMPL8' },
-    { nombre: 'Sentadilla con Barra Smith', grupo: 'Piernas', video: 'yR9U3RlMUao' },
+    { nombre: 'Sentadilla con Barra Smith', grupo: 'Piernas', video: 'gRVjAtPip0Y' },
     { nombre: 'Sentadilla Bulgara con Mancuernas', grupo: 'Piernas', video: '2C-uNgKwPLE' },
-    { nombre: 'Hack Squat', grupo: 'Piernas', video: '0tn5K9NlCGg' },
+    { nombre: 'Hack Squat', grupo: 'Piernas', video: 'EdtaJRBqwes' },
     { nombre: 'Prensa de Piernas', grupo: 'Piernas', video: 'IZxyjW7MPJQ' },
     { nombre: 'Prensa Unilateral', grupo: 'Piernas', video: 'IZxyjW7MPJQ' },
     { nombre: 'Camilla de Cuadriceps', grupo: 'Piernas', video: 'YyvSfVjQeL0' },
@@ -103,26 +103,26 @@ const App = (() => {
     // PIERNAS - ISQUIOTIBIALES
     { nombre: 'Camilla de Isquiotibiales', grupo: 'Piernas', video: '1Tq3QdYUuHs' },
     { nombre: 'Camilla de Isquiotibiales 2', grupo: 'Piernas', video: '1Tq3QdYUuHs' },
-    { nombre: 'Peso Muerto Rumano', grupo: 'Piernas', video: '7AaaYhMqSbY' },
+    { nombre: 'Peso Muerto Rumano', grupo: 'Piernas', video: 'dsbcodMtZ1E' },
     { nombre: 'Peso Muerto Convencional', grupo: 'Piernas', video: 'op9kVnSso6Q' },
-    { nombre: 'Hip Thrust', grupo: 'Piernas', video: 'SEdqd1s0OKc' },
+    { nombre: 'Hip Thrust', grupo: 'Piernas', video: 'OSOP3JAApGk' },
     // PIERNAS - GEMELOS
     { nombre: 'Gemelos en prensa', grupo: 'Piernas', video: 'JbyjNymZOt0' },
     { nombre: 'Gemelos de pie', grupo: 'Piernas', video: 'gwLzBJYoWlI' },
     { nombre: 'Gemelos sentado', grupo: 'Piernas', video: 'JbyjNymZOt0' },
     // ZONA MEDIA
     { nombre: 'Crunch en Banco Declinado', grupo: 'Core', video: '7UVgs18Y1P4' },
-    { nombre: 'Anti Rotacional con Barra', grupo: 'Core', video: 'pg6fix3KBBU' },
-    { nombre: 'Ruedita Abdominal', grupo: 'Core', video: 'rqiTPmfCBPg' },
+    { nombre: 'Anti Rotacional con Barra', grupo: 'Core', video: '0efz8srgH7c' },
+    { nombre: 'Ruedita Abdominal', grupo: 'Core', video: 'iaEeVHea3Fc' },
     { nombre: 'Twist Sovietico con Disco', grupo: 'Core', video: 'wkD8rjkodUI' },
     { nombre: 'Plancha', grupo: 'Core', video: 'ASdvN_XEl_c' },
     { nombre: 'Plancha Lateral', grupo: 'Core', video: 'K2VljzCC16g' },
     // MOVILIDAD / CALENTAMIENTO
-    { nombre: 'Extensiones torácicas con FoamRoller', grupo: 'Movilidad', video: 'SxQkVhp5sOI' },
-    { nombre: 'Estiramiento Gluteo', grupo: 'Movilidad', video: 'ZaqP_Fj8fLk' },
-    { nombre: 'Cadera + Isquio Estiramiento', grupo: 'Movilidad', video: 'ZaqP_Fj8fLk' },
+    { nombre: 'Extensiones torácicas con FoamRoller', grupo: 'Movilidad', video: '_KVE3qEytJ4' },
+    { nombre: 'Estiramiento Gluteo', grupo: 'Movilidad', video: 'ygmc99i-rss' },
+    { nombre: 'Cadera + Isquio Estiramiento', grupo: 'Movilidad', video: 'ygmc99i-rss' },
     { nombre: 'Estiramiento de la cobra', grupo: 'Movilidad', video: 'JDcdhTuycOI' },
-    { nombre: 'Estiramiento caderas 90/90', grupo: 'Movilidad', video: 'GFEf_3FSfAQ' },
+    { nombre: 'Estiramiento caderas 90/90', grupo: 'Movilidad', video: 'Jc9UMQOSA7Y' },
     { nombre: 'Estiramiento de flexor de cadera', grupo: 'Movilidad', video: 'YQmpO9VT2X4' },
   ];
 
@@ -233,10 +233,13 @@ const App = (() => {
 
   // ---- STORAGE ----
   const HISTORY_KEY = 'musculapp_history';
+  const SESSIONS_KEY = 'musculapp_sessions';
   const ROUTINES_KEY = 'musculapp_routines';
   const USER_KEY = 'musculapp_user';
   const getHistory = () => JSON.parse(localStorage.getItem(HISTORY_KEY) || '{}');
   const saveHistory = (h) => localStorage.setItem(HISTORY_KEY, JSON.stringify(h));
+  const getSessions = () => JSON.parse(localStorage.getItem(SESSIONS_KEY) || '[]');
+  const saveSessions = (s) => localStorage.setItem(SESSIONS_KEY, JSON.stringify(s));
   function getUserName() { return localStorage.getItem(USER_KEY) || 'Diego Flores'; }
   function saveUserName(n) { localStorage.setItem(USER_KEY, n); }
   function getRoutines() {
@@ -250,16 +253,40 @@ const App = (() => {
     const r = (getHistory()[name] || []);
     return r.length ? r[r.length - 1] : null;
   }
+  function getLatestWeight(exerciseName) {
+    const records = getHistory()[exerciseName] || [];
+    if (!records.length) return null;
+    const last = records[records.length - 1];
+    return last.series.length ? last.series[last.series.length - 1].kg : null;
+  }
+  function getSessionCount() {
+    return getSessions().length;
+  }
   function saveWorkoutToHistory() {
     const h = getHistory(), date = new Date().toISOString();
+    const sessionId = 'ses_' + Date.now();
+    const sessionExercises = [];
     for (const [name, sets] of Object.entries(state.workoutData)) {
       const done = sets.filter(s => s.done);
       if (!done.length) continue;
       if (!h[name]) h[name] = [];
-      h[name].push({ fecha: date, rutina: state.activeRoutine.nombre, series: done.map(s => ({ kg: s.kg, reps: s.reps })) });
+      h[name].push({ fecha: date, rutina: state.activeRoutine.nombre, sessionId, series: done.map(s => ({ kg: s.kg, reps: s.reps })) });
       if (h[name].length > 30) h[name] = h[name].slice(-30);
+      sessionExercises.push({ nombre: name, series: done.map(s => ({ kg: s.kg, reps: s.reps })) });
     }
     saveHistory(h);
+    if (sessionExercises.length) {
+      const sessions = getSessions();
+      sessions.push({
+        id: sessionId,
+        fecha: date,
+        rutina: state.activeRoutine.nombre,
+        duracion: state.workoutStart ? Math.floor((Date.now() - state.workoutStart) / 1000) : 0,
+        ejercicios: sessionExercises
+      });
+      if (sessions.length > 100) sessions.splice(0, sessions.length - 100);
+      saveSessions(sessions);
+    }
   }
 
   // ---- HELPERS ----
@@ -313,14 +340,14 @@ const App = (() => {
     updateTabBar('train');
     const rutinas = getRoutines();
     const h = getHistory();
-    const totalSets = Object.values(h).reduce((s, a) => s + a.length, 0);
+    const sessCount = getSessionCount();
 
     html($('app'), `
       <div class="fade-in pb-24" style="padding-top: calc(var(--safe-top, 0px) + 20px);">
         <div class="px-6 pb-6">
           <p class="text-zinc-500 text-xs font-medium tracking-widest uppercase">Bienvenido</p>
           <h1 class="text-[26px] font-bold tracking-tight mt-1">${getUserName()}</h1>
-          ${totalSets > 0 ? `<p class="text-zinc-600 text-xs font-light mt-2">${totalSets} registros · ${Object.keys(h).length} ejercicios trackeados</p>` : ''}
+          ${sessCount > 0 ? `<p class="text-zinc-600 text-xs font-light mt-2">${sessCount} sesiones · ${Object.keys(h).length} ejercicios trackeados</p>` : ''}
         </div>
 
         <div class="px-6">
@@ -422,7 +449,7 @@ const App = (() => {
               <p class="text-zinc-600 text-[10px] font-medium uppercase tracking-wider mt-1">Ejercicios</p>
             </div>
             <div class="bg-zinc-900/40 border border-zinc-800/60 rounded-2xl p-4 text-center card-depth">
-              <p class="text-xl font-bold tracking-tight text-emerald-400">${exercises.reduce((s, e) => s + e.sessions, 0)}</p>
+              <p class="text-xl font-bold tracking-tight text-emerald-400">${getSessionCount()}</p>
               <p class="text-zinc-600 text-[10px] font-medium uppercase tracking-wider mt-1">Sesiones</p>
             </div>
             <div class="bg-zinc-900/40 border border-zinc-800/60 rounded-2xl p-4 text-center card-depth">
@@ -464,7 +491,7 @@ const App = (() => {
     state.screen = 'profile'; updateTabBar('profile');
     const h = getHistory();
     const totalSets = Object.values(h).reduce((s, a) => s + a.reduce((ss, r) => ss + r.series.length, 0), 0);
-    const totalSessions = Object.values(h).reduce((s, a) => s + a.length, 0);
+    const totalSessions = getSessionCount();
 
     html($('app'), `
       <div class="fade-in pb-40" style="padding-top: calc(var(--safe-top, 0px) + 20px);">
@@ -783,7 +810,12 @@ const App = (() => {
     updateTabBar('train', false);
     r.bloques.forEach(b => b.ejercicios.forEach(e => {
       const c = getSeriesCount(b, e), ls = getLastSession(e.nombre), sets = [];
-      for (let j = 0; j < c; j++) { const p = ls && ls.series[j]; sets.push({ kg: p ? p.kg : 0, reps: p ? p.reps : 0, done: false, ph_kg: p ? p.kg : '', ph_reps: p ? p.reps : '' }); }
+      for (let j = 0; j < c; j++) {
+        const p = ls && ls.series[j];
+        const fallback = ls && ls.series.length ? ls.series[ls.series.length - 1] : null;
+        const ghost = p || fallback;
+        sets.push({ kg: 0, reps: 0, done: false, ph_kg: ghost ? ghost.kg : '', ph_reps: ghost ? ghost.reps : '' });
+      }
       state.workoutData[e.nombre] = sets;
     }));
     renderWorkout();
@@ -851,15 +883,15 @@ const App = (() => {
         ${sets.length > 0 ? `
         <div class="space-y-2">
           <div class="grid grid-cols-[28px_1fr_1fr_36px] gap-3 text-[9px] text-zinc-700 uppercase tracking-[.2em] font-medium pl-1">
-            <span>Set</span><span class="text-center">Kg</span><span class="text-center">Reps</span><span></span>
+            <span>Set</span><span class="text-center">Reps</span><span class="text-center">Kg</span><span></span>
           </div>
           ${sets.map((s, si) => `
             <div class="grid grid-cols-[28px_1fr_1fr_36px] gap-3 items-center ${s.done ? 'opacity-40' : ''}">
               <span class="text-[11px] text-zinc-600 font-light text-center">${si + 1}</span>
-              <input type="number" inputmode="decimal" step="0.5" id="kg-${escId(e.nombre)}-${si}" value="${s.kg || ''}" placeholder="${s.ph_kg || '—'}"
-                onchange="App.updateSet('${esc(e.nombre)}',${si},'kg',this.value)" class="input-minimal ${s.done ? 'done' : ''}">
-              <input type="number" inputmode="numeric" id="reps-${escId(e.nombre)}-${si}" value="${s.reps || ''}" placeholder="${s.ph_reps || '—'}"
+              <input type="number" inputmode="numeric" id="reps-${escId(e.nombre)}-${si}" value="${s.reps || ''}" placeholder="${s.ph_reps || '—'}" tabindex="${si * 2 + 1}"
                 onchange="App.updateSet('${esc(e.nombre)}',${si},'reps',this.value)" class="input-minimal ${s.done ? 'done' : ''}">
+              <input type="number" inputmode="decimal" step="0.5" id="kg-${escId(e.nombre)}-${si}" value="${s.kg || ''}" placeholder="${s.ph_kg || '—'}" tabindex="${si * 2 + 2}"
+                onchange="App.updateSet('${esc(e.nombre)}',${si},'kg',this.value)" class="input-minimal ${s.done ? 'done' : ''}">
               <button onclick="App.toggleSet('${esc(e.nombre)}',${si},${e.descanso || 0})"
                 class="w-9 h-9 rounded-full flex items-center justify-center transition-all mx-auto min-h-[44px] min-w-[44px]">${s.done ? ICONS.checkCircle : ICONS.circle}</button>
             </div>
