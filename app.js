@@ -94,8 +94,8 @@ const App = (() => {
     // PIERNAS - CUÁDRICEPS
     { nombre: 'Sentadilla con Barra', grupo: 'Piernas', video: 'ultWZbUMPL8' },
     { nombre: 'Sentadilla con Barra Smith', grupo: 'Piernas', video: 'gRVjAtPip0Y' },
-    { nombre: 'Sentadilla Bulgara con Mancuernas', grupo: 'Piernas', video: '2C-uNgKwPLE' },
-    { nombre: 'Hack Squat', grupo: 'Piernas', video: 'EdtaJRBqwes' },
+    { nombre: 'Sentadilla Bulgara con Mancuernas', grupo: 'Piernas', video: 'bbHPPlQeu6Y' },
+    { nombre: 'Hack Squat', grupo: 'Piernas', video: '8Gk8snrY8u4' },
     { nombre: 'Prensa de Piernas', grupo: 'Piernas', video: 'IZxyjW7MPJQ' },
     { nombre: 'Prensa Unilateral', grupo: 'Piernas', video: 'd-RBtJKPU_g' },
     { nombre: 'Camilla de Cuadriceps', grupo: 'Piernas', video: 'YyvSfVjQeL0' },
@@ -111,8 +111,8 @@ const App = (() => {
     { nombre: 'Gemelos de pie', grupo: 'Piernas', video: 'gwLzBJYoWlI' },
     { nombre: 'Gemelos sentado', grupo: 'Piernas', video: 'JDfWLEipMOc' },
     // ZONA MEDIA
-    { nombre: 'Crunch en Banco Declinado', grupo: 'Core', video: '7UVgs18Y1P4' },
-    { nombre: 'Anti Rotacional con Barra', grupo: 'Core', video: '0efz8srgH7c' },
+    { nombre: 'Crunch en Banco Declinado', grupo: 'Core', video: 'FkeT5dO4GOg' },
+    { nombre: 'Anti Rotacional con Barra', grupo: 'Core', video: 'JsTuKeMJeFU' },
     { nombre: 'Ruedita Abdominal', grupo: 'Core', video: 'iaEeVHea3Fc' },
     { nombre: 'Twist Sovietico con Disco', grupo: 'Core', video: 'wkD8rjkodUI' },
     { nombre: 'Plancha', grupo: 'Core', video: 'ASdvN_XEl_c' },
