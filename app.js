@@ -49,7 +49,7 @@ const App = (() => {
   // Videos from: Harbiz, JEFIT, ScottHermanFitness, Jeff Nippard, Renaissance Periodization
   const EXERCISE_DB = [
     // PECHO
-    { nombre: 'Press Plano con Barra', grupo: 'Pecho', video: 'rT7DgCr-3pg' },
+    { nombre: 'Press Plano con Barra', grupo: 'Pecho', video: 'S7NrsueBHhA' },
     { nombre: 'Press Plano con Mancuernas', grupo: 'Pecho', video: 'VmB1G1K7v94' },
     { nombre: 'Press Inclinado con Barra', grupo: 'Pecho', video: 'SrqOu55lrYU' },
     { nombre: 'Press Inclinado con Mancuernas', grupo: 'Pecho', video: '8iPEnn-ltC8' },
@@ -59,11 +59,11 @@ const App = (() => {
     { nombre: 'Aperturas en Polea', grupo: 'Pecho', video: 'Iwe6AmxVf7o' },
     { nombre: 'Fondos en Paralelas', grupo: 'Pecho', video: '2z8JmcrW-As' },
     { nombre: 'Crossover en Polea Alta', grupo: 'Pecho', video: 'taI4XduLpTk' },
-    { nombre: 'Crossover en Polea Baja', grupo: 'Pecho', video: 'taI4XduLpTk' },
+    { nombre: 'Crossover en Polea Baja', grupo: 'Pecho', video: 'oUEdlT7G0Uc' },
     // ESPALDA
     { nombre: 'Dorsalera', grupo: 'Espalda', video: 'CAwf7n6Luuc' },
     { nombre: 'Dominadas', grupo: 'Espalda', video: 'eGo4IYlbE5g' },
-    { nombre: 'Dominadas colgado pasivas', grupo: 'Espalda', video: 'eGo4IYlbE5g' },
+    { nombre: 'Dominadas colgado pasivas', grupo: 'Espalda', video: 'bRLuyiF0OMg' },
     { nombre: 'Remo con Barra', grupo: 'Espalda', video: 'FWJR5Ve8bnQ' },
     { nombre: 'Remo con Pecho Apoyado', grupo: 'Espalda', video: 'oKNjFM1bxAs' },
     { nombre: 'Remo Unilateral en Cable Medio', grupo: 'Espalda', video: 'RYPM7ipvQn8' },
@@ -71,25 +71,25 @@ const App = (() => {
     { nombre: 'Pullover en Polea', grupo: 'Espalda', video: 'geenhiHju-o' },
     { nombre: 'Face Pull', grupo: 'Espalda', video: 'rep-qVOkqgk' },
     // HOMBROS
-    { nombre: 'Press Militar con Barra', grupo: 'Hombros', video: '2yjwXTZQDDI' },
+    { nombre: 'Press Militar con Barra', grupo: 'Hombros', video: 'zoN5EH50Dro' },
     { nombre: 'Press Militar con Mancuernas', grupo: 'Hombros', video: 'qEwKCR5JCog' },
     { nombre: 'Vuelos Laterales con Mancuernas', grupo: 'Hombros', video: '3VcKaXpzqRo' },
     { nombre: 'Vuelos Frontales', grupo: 'Hombros', video: 'jk7YrK79ciA' },
     { nombre: 'Pajaros con Mancuernas', grupo: 'Hombros', video: 'ttvfGg9d76c' },
     { nombre: 'Elevaciones Laterales en Polea', grupo: 'Hombros', video: 'XPPfnSEATJA' },
-    { nombre: 'Movilidad completa de hombro', grupo: 'Hombros', video: 'eGo4IYlbE5g' },
+    { nombre: 'Movilidad completa de hombro', grupo: 'Hombros', video: 'v2xy1HsqlKk' },
     // BICEPS
     { nombre: 'Curl con Barra', grupo: 'Bíceps', video: 'WnDxMH-adp8' },
     { nombre: 'Curl con Mancuernas', grupo: 'Bíceps', video: 'ykJmrZ5v0Oo' },
     { nombre: 'Curl Martillo', grupo: 'Bíceps', video: 'Xfp9_TCvba0' },
     { nombre: 'Bicep en Cable', grupo: 'Bíceps', video: 'NFzTWp2qpiE' },
     { nombre: 'Bicep con Mancuernas en Banco 45°', grupo: 'Bíceps', video: 'soxrZlIl35U' },
-    { nombre: 'Curl en Banco Scott', grupo: 'Bíceps', video: 'soxrZlIl35U' },
+    { nombre: 'Curl en Banco Scott', grupo: 'Bíceps', video: 'YUhSi_sUGmM' },
     // TRICEPS
     { nombre: 'Tricep Pushdown', grupo: 'Tríceps', video: '2-LAMcpzODU' },
     { nombre: 'Press Frances con Barra', grupo: 'Tríceps', video: 'd_KZxkY_0cM' },
     { nombre: 'Press Frances con Mancuernas', grupo: 'Tríceps', video: 'ir5PsbniVSc' },
-    { nombre: 'Extensión de Tríceps en Polea', grupo: 'Tríceps', video: '2-LAMcpzODU' },
+    { nombre: 'Extensión de Tríceps en Polea', grupo: 'Tríceps', video: '3ZTTSka2Niw' },
     { nombre: 'Patada de Tríceps', grupo: 'Tríceps', video: '6SS6K3lAwZ8' },
     // PIERNAS - CUÁDRICEPS
     { nombre: 'Sentadilla con Barra', grupo: 'Piernas', video: 'ultWZbUMPL8' },
@@ -97,7 +97,7 @@ const App = (() => {
     { nombre: 'Sentadilla Bulgara con Mancuernas', grupo: 'Piernas', video: '2C-uNgKwPLE' },
     { nombre: 'Hack Squat', grupo: 'Piernas', video: 'EdtaJRBqwes' },
     { nombre: 'Prensa de Piernas', grupo: 'Piernas', video: 'IZxyjW7MPJQ' },
-    { nombre: 'Prensa Unilateral', grupo: 'Piernas', video: 'IZxyjW7MPJQ' },
+    { nombre: 'Prensa Unilateral', grupo: 'Piernas', video: 'd-RBtJKPU_g' },
     { nombre: 'Camilla de Cuadriceps', grupo: 'Piernas', video: 'YyvSfVjQeL0' },
     { nombre: 'Estocadas con Mancuernas', grupo: 'Piernas', video: 'D7KaRcUTQeE' },
     // PIERNAS - ISQUIOTIBIALES
@@ -109,7 +109,7 @@ const App = (() => {
     // PIERNAS - GEMELOS
     { nombre: 'Gemelos en prensa', grupo: 'Piernas', video: 'JbyjNymZOt0' },
     { nombre: 'Gemelos de pie', grupo: 'Piernas', video: 'gwLzBJYoWlI' },
-    { nombre: 'Gemelos sentado', grupo: 'Piernas', video: 'JbyjNymZOt0' },
+    { nombre: 'Gemelos sentado', grupo: 'Piernas', video: 'JDfWLEipMOc' },
     // ZONA MEDIA
     { nombre: 'Crunch en Banco Declinado', grupo: 'Core', video: '7UVgs18Y1P4' },
     { nombre: 'Anti Rotacional con Barra', grupo: 'Core', video: '0efz8srgH7c' },
@@ -120,7 +120,7 @@ const App = (() => {
     // MOVILIDAD / CALENTAMIENTO
     { nombre: 'Extensiones torácicas con FoamRoller', grupo: 'Movilidad', video: '_KVE3qEytJ4' },
     { nombre: 'Estiramiento Gluteo', grupo: 'Movilidad', video: 'ygmc99i-rss' },
-    { nombre: 'Cadera + Isquio Estiramiento', grupo: 'Movilidad', video: 'ygmc99i-rss' },
+    { nombre: 'Cadera + Isquio Estiramiento', grupo: 'Movilidad', video: '6kdaxLiSLkU' },
     { nombre: 'Estiramiento de la cobra', grupo: 'Movilidad', video: 'JDcdhTuycOI' },
     { nombre: 'Estiramiento caderas 90/90', grupo: 'Movilidad', video: 'Jc9UMQOSA7Y' },
     { nombre: 'Estiramiento de flexor de cadera', grupo: 'Movilidad', video: 'YQmpO9VT2X4' },

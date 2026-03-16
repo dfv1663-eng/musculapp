@@ -1,4 +1,4 @@
-const CACHE_NAME = 'musculapp-v2';
+const CACHE_NAME = 'musculapp-v3';
 const ASSETS = [
   './',
   './index.html',
