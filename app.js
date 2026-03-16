@@ -466,8 +466,8 @@ const App = (() => {
       .sort((a, b) => b[1].length - a[1].length)
       .map(([g, exs]) => [g, exs.sort((a, b) => b.best1RM - a.best1RM)]);
 
-    // Personal records (top 5 by 1RM)
-    const prs = [...exercises].sort((a, b) => b.best1RM - a.best1RM).slice(0, 5);
+    // Personal records (top 5 by maxKg)
+    const prs = [...exercises].sort((a, b) => b.maxKg - a.maxKg).slice(0, 5);
 
     html($('app'), `
       <div class="fade-in pb-24" style="padding-top: calc(var(--safe-top, 0px) + 20px);">
@@ -535,8 +535,7 @@ const App = (() => {
                     <p class="text-zinc-600 text-[10px] font-light mt-0.5">max ${ex.maxKg}kg · ${ex.sessions} ${ex.sessions === 1 ? 'vez' : 'veces'}</p>
                   </div>
                   <div class="flex items-center gap-2 flex-shrink-0">
-                    <span class="text-emerald-400 text-sm font-bold tabular-nums">${ex.best1RM}</span>
-                    <span class="text-zinc-600 text-[9px]">1RM</span>
+                    <span class="text-emerald-400 text-sm font-bold tabular-nums">${ex.maxKg}<span class="text-[10px] font-normal text-zinc-500 ml-0.5">kg</span></span>
                   </div>
                 </button>
               `).join('')}
@@ -1028,8 +1027,8 @@ const App = (() => {
     for (const [name, sets] of Object.entries(state.workoutData)) {
       const done = sets.filter(s => s.done); if (!done.length) continue;
       tSets += done.length; const v = totalVolume(done); tVol += v;
-      const mk = Math.max(...done.map(s => s.kg)), mr = Math.max(...done.map(s => s.reps));
-      exSum.push({ name, sets: done, vol: v, rm: epley1RM(mk, mr) });
+      const mk = Math.max(...done.map(s => s.kg));
+      exSum.push({ name, sets: done, vol: v, maxKg: mk });
     }
 
     html($('app'), `
@@ -1059,7 +1058,7 @@ const App = (() => {
               <div class="bg-zinc-900/40 border border-zinc-800/60 rounded-xl card-depth px-4 py-3">
                 <div class="flex items-center justify-between mb-2">
                   <p class="text-[13px] font-medium">${ex.name}</p>
-                  ${ex.rm > 0 ? `<span class="text-emerald-400/80 text-[11px] font-medium">1RM: ${ex.rm}kg</span>` : ''}
+                  ${ex.maxKg > 0 ? `<span class="text-emerald-400/80 text-[11px] font-medium">Max: ${ex.maxKg}kg</span>` : ''}
                 </div>
                 <div class="flex gap-1.5 flex-wrap">
                   ${ex.sets.map(s => `<span class="text-[11px] bg-zinc-800/60 text-zinc-400 px-2 py-1 rounded-md font-light">${s.kg} × ${s.reps}</span>`).join('')}
@@ -1103,12 +1102,12 @@ const App = (() => {
     const records = getHistory()[name] || [];
     let content = '';
     if (records.length > 0) {
-      let best = 0; records.forEach(r => r.series.forEach(s => { const rm = epley1RM(s.kg, s.reps); if (rm > best) best = rm; }));
       const last = records[records.length - 1], lv = totalVolume(last.series), mk = Math.max(...records.flatMap(r => r.series.map(s => s.kg)));
+      const totalSes = records.length;
       content = `
         <div class="grid grid-cols-3 gap-2 mb-5">
-          <div class="bg-zinc-800/50 rounded-xl p-3 text-center"><p class="text-base font-bold text-emerald-400">${best}</p><p class="text-zinc-600 text-[9px] uppercase tracking-widest mt-0.5">1RM Est.</p></div>
-          <div class="bg-zinc-800/50 rounded-xl p-3 text-center"><p class="text-base font-bold">${mk}</p><p class="text-zinc-600 text-[9px] uppercase tracking-widest mt-0.5">Max Kg</p></div>
+          <div class="bg-zinc-800/50 rounded-xl p-3 text-center"><p class="text-base font-bold text-emerald-400">${mk}<span class="text-xs font-normal text-zinc-500 ml-0.5">kg</span></p><p class="text-zinc-600 text-[9px] uppercase tracking-widest mt-0.5">Max Peso</p></div>
+          <div class="bg-zinc-800/50 rounded-xl p-3 text-center"><p class="text-base font-bold">${totalSes}</p><p class="text-zinc-600 text-[9px] uppercase tracking-widest mt-0.5">Sesiones</p></div>
           <div class="bg-zinc-800/50 rounded-xl p-3 text-center"><p class="text-base font-bold">${lv}</p><p class="text-zinc-600 text-[9px] uppercase tracking-widest mt-0.5">Últ. Vol.</p></div>
         </div>
         ${records.length > 1 ? '<div class="mb-5 bg-zinc-800/30 rounded-xl p-3"><canvas id="history-chart" height="160"></canvas></div>' : ''}
