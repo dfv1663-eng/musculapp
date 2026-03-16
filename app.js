@@ -260,7 +260,15 @@ const App = (() => {
     return last.series.length ? last.series[last.series.length - 1].kg : null;
   }
   function getSessionCount() {
-    return getSessions().length;
+    const sessions = getSessions();
+    if (sessions.length > 0) return sessions.length;
+    const h = getHistory();
+    const dates = new Set();
+    for (const records of Object.values(h)) {
+      records.forEach(r => dates.add(r.fecha ? r.fecha.slice(0, 10) : ''));
+    }
+    dates.delete('');
+    return dates.size;
   }
   function saveWorkoutToHistory() {
     const h = getHistory(), date = new Date().toISOString();
@@ -423,14 +431,47 @@ const App = (() => {
       let best1RM = 0;
       records.forEach(r => r.series.forEach(s => { const rm = epley1RM(s.kg, s.reps); if (rm > best1RM) best1RM = rm; }));
       const maxKg = Math.max(...records.flatMap(r => r.series.map(s => s.kg)));
-      return { name, records, last, best1RM, maxKg, sessions: records.length };
-    }).sort((a, b) => b.best1RM - a.best1RM);
+      const prevMax = records.length >= 2 ? Math.max(...records.slice(0, -1).flatMap(r => r.series.map(s => s.kg))) : maxKg;
+      const trend = maxKg > prevMax ? 'up' : maxKg < prevMax ? 'down' : 'same';
+      const grupo = getExerciseGroup(name);
+      return { name, records, last, best1RM, maxKg, trend, grupo, sessions: records.length };
+    });
 
     const totalVol = exercises.reduce((s, e) => s + e.records.reduce((ss, r) => ss + totalVolume(r.series), 0), 0);
+    const sessCount = getSessionCount();
+
+    // Weekly activity: last 7 days
+    const today = new Date(); today.setHours(0, 0, 0, 0);
+    const weekDays = [];
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date(today); d.setDate(d.getDate() - i);
+      const dateStr = d.toISOString().slice(0, 10);
+      const dayExercises = [];
+      for (const [name, records] of Object.entries(h)) {
+        records.forEach(r => { if (r.fecha && r.fecha.slice(0, 10) === dateStr) dayExercises.push(name); });
+      }
+      weekDays.push({ date: d, dateStr, count: dayExercises.length, names: [...new Set(dayExercises)] });
+    }
+    const dayLabels = ['D', 'L', 'M', 'X', 'J', 'V', 'S'];
+
+    // Group exercises by muscle group
+    const groups = {};
+    exercises.forEach(ex => {
+      const g = ex.grupo || 'Otro';
+      if (!groups[g]) groups[g] = [];
+      groups[g].push(ex);
+    });
+    // Sort groups by most exercises, sort exercises within by best1RM
+    const sortedGroups = Object.entries(groups)
+      .sort((a, b) => b[1].length - a[1].length)
+      .map(([g, exs]) => [g, exs.sort((a, b) => b.best1RM - a.best1RM)]);
+
+    // Personal records (top 5 by 1RM)
+    const prs = [...exercises].sort((a, b) => b.best1RM - a.best1RM).slice(0, 5);
 
     html($('app'), `
       <div class="fade-in pb-24" style="padding-top: calc(var(--safe-top, 0px) + 20px);">
-        <div class="px-6 pb-6">
+        <div class="px-6 pb-4">
           <h1 class="text-[26px] font-bold tracking-tight">Progreso</h1>
           <p class="text-zinc-500 text-xs font-light mt-1">Tu evolución en el tiempo</p>
         </div>
@@ -442,40 +483,91 @@ const App = (() => {
             <p class="text-zinc-600 text-xs mt-1">Completá tu primera sesión para ver tu progreso</p>
           </div>
         ` : `
+          <!-- Weekly Activity -->
+          <div class="px-6 mb-6">
+            <div class="bg-zinc-900/40 border border-zinc-800/60 rounded-2xl card-depth p-4">
+              <div class="flex items-center justify-between mb-3">
+                <h2 class="text-zinc-500 text-[11px] font-semibold tracking-[.15em] uppercase">Esta semana</h2>
+                <span class="text-zinc-600 text-[11px] font-light">${weekDays.filter(d => d.count > 0).length}/7 días</span>
+              </div>
+              <div class="grid grid-cols-7 gap-2">
+                ${weekDays.map(d => {
+                  const isToday = d.dateStr === today.toISOString().slice(0, 10);
+                  const active = d.count > 0;
+                  return `<div class="flex flex-col items-center gap-1.5">
+                    <div class="w-9 h-9 rounded-xl flex items-center justify-center text-xs font-semibold transition
+                      ${active ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' : isToday ? 'bg-zinc-800/60 text-zinc-400 border border-zinc-700/50' : 'bg-zinc-800/30 text-zinc-700'}">
+                      ${d.count > 0 ? d.count : ''}
+                    </div>
+                    <span class="text-[9px] ${isToday ? 'text-zinc-300 font-semibold' : 'text-zinc-600'}">${dayLabels[d.date.getDay()]}</span>
+                  </div>`;
+                }).join('')}
+              </div>
+            </div>
+          </div>
+
           <!-- KPIs -->
           <div class="px-6 grid grid-cols-3 gap-3 mb-6">
+            <div class="bg-zinc-900/40 border border-zinc-800/60 rounded-2xl p-4 text-center card-depth">
+              <p class="text-xl font-bold tracking-tight text-emerald-400">${sessCount}</p>
+              <p class="text-zinc-600 text-[10px] font-medium uppercase tracking-wider mt-1">Sesiones</p>
+            </div>
             <div class="bg-zinc-900/40 border border-zinc-800/60 rounded-2xl p-4 text-center card-depth">
               <p class="text-xl font-bold tracking-tight">${exercises.length}</p>
               <p class="text-zinc-600 text-[10px] font-medium uppercase tracking-wider mt-1">Ejercicios</p>
             </div>
             <div class="bg-zinc-900/40 border border-zinc-800/60 rounded-2xl p-4 text-center card-depth">
-              <p class="text-xl font-bold tracking-tight text-emerald-400">${getSessionCount()}</p>
-              <p class="text-zinc-600 text-[10px] font-medium uppercase tracking-wider mt-1">Sesiones</p>
-            </div>
-            <div class="bg-zinc-900/40 border border-zinc-800/60 rounded-2xl p-4 text-center card-depth">
-              <p class="text-xl font-bold tracking-tight">${totalVol > 9999 ? (totalVol/1000).toFixed(0) + 'k' : totalVol}</p>
+              <p class="text-xl font-bold tracking-tight">${totalVol > 9999 ? (totalVol/1000).toFixed(1) + 'k' : totalVol}</p>
               <p class="text-zinc-600 text-[10px] font-medium uppercase tracking-wider mt-1">Vol. total</p>
             </div>
           </div>
 
-          <!-- Exercise List -->
-          <div class="px-6">
-            <h2 class="text-zinc-500 text-[11px] font-semibold tracking-[.15em] uppercase mb-3">Por ejercicio</h2>
-            <div class="space-y-2">
-              ${exercises.map(ex => `
-                <button onclick="App.showHistoryModal('${esc(ex.name)}')" class="w-full bg-zinc-900/40 border border-zinc-800/60 rounded-xl card-depth px-4 py-3.5 text-left active:bg-white/[.02] transition flex items-center justify-between">
-                  <div class="min-w-0 flex-1">
-                    <p class="text-sm font-medium truncate">${ex.name}</p>
-                    <p class="text-zinc-600 text-[11px] font-light mt-0.5">${ex.sessions} sesiones · max ${ex.maxKg}kg</p>
+          <!-- Personal Records -->
+          ${prs.length > 0 ? `
+          <div class="px-6 mb-6">
+            <h2 class="text-zinc-500 text-[11px] font-semibold tracking-[.15em] uppercase mb-3">Records Personales</h2>
+            <div class="bg-zinc-900/40 border border-zinc-800/60 rounded-2xl card-depth overflow-hidden divide-y divide-zinc-800/30">
+              ${prs.map((ex, i) => `
+                <button onclick="App.showHistoryModal('${esc(ex.name)}')" class="w-full px-4 py-3 flex items-center gap-3 text-left active:bg-white/[.02] transition">
+                  <span class="text-zinc-700 text-xs font-bold w-5 text-center">${i + 1}</span>
+                  <div class="flex-1 min-w-0">
+                    <p class="text-[13px] font-medium truncate">${ex.name}</p>
+                    <p class="text-zinc-600 text-[10px] font-light mt-0.5">max ${ex.maxKg}kg · ${ex.sessions} ${ex.sessions === 1 ? 'vez' : 'veces'}</p>
                   </div>
-                  <div class="flex items-center gap-3 flex-shrink-0 ml-3">
-                    <div class="text-right">
-                      <p class="text-emerald-400 text-sm font-semibold tabular-nums">${ex.best1RM}</p>
-                      <p class="text-zinc-600 text-[10px]">1RM est.</p>
-                    </div>
-                    <div class="text-zinc-700">${ICONS.chevronRight}</div>
+                  <div class="flex items-center gap-2 flex-shrink-0">
+                    <span class="text-emerald-400 text-sm font-bold tabular-nums">${ex.best1RM}</span>
+                    <span class="text-zinc-600 text-[9px]">1RM</span>
                   </div>
                 </button>
+              `).join('')}
+            </div>
+          </div>` : ''}
+
+          <!-- By Muscle Group -->
+          <div class="px-6">
+            <h2 class="text-zinc-500 text-[11px] font-semibold tracking-[.15em] uppercase mb-3">Por grupo muscular</h2>
+            <div class="space-y-3">
+              ${sortedGroups.map(([grupo, exs]) => `
+                <div class="bg-zinc-900/40 border border-zinc-800/60 rounded-2xl card-depth overflow-hidden">
+                  <div class="px-4 py-3 border-b border-zinc-800/30 flex items-center justify-between">
+                    <h3 class="text-[13px] font-semibold text-zinc-300">${grupo}</h3>
+                    <span class="text-zinc-600 text-[10px]">${exs.length} ejercicio${exs.length > 1 ? 's' : ''}</span>
+                  </div>
+                  <div class="divide-y divide-zinc-800/20">
+                    ${exs.map(ex => `
+                      <button onclick="App.showHistoryModal('${esc(ex.name)}')" class="w-full px-4 py-3 flex items-center justify-between text-left active:bg-white/[.02] transition">
+                        <div class="min-w-0 flex-1">
+                          <div class="flex items-center gap-2">
+                            <p class="text-[13px] font-medium truncate">${ex.name}</p>
+                            ${ex.trend === 'up' ? '<span class="text-emerald-400 flex-shrink-0">' + ICONS.arrowUp + '</span>' : ex.trend === 'down' ? '<span class="text-red-400/60 flex-shrink-0">' + ICONS.arrowDown + '</span>' : ''}
+                          </div>
+                          <p class="text-zinc-600 text-[10px] font-light mt-0.5">Último: ${new Date(ex.last.fecha).toLocaleDateString('es-AR', { day:'numeric', month:'short' })} · ${ex.last.series.map(s => s.kg + '×' + s.reps).join(', ')}</p>
+                        </div>
+                        <div class="text-zinc-700 ml-2">${ICONS.chevronRight}</div>
+                      </button>
+                    `).join('')}
+                  </div>
+                </div>
               `).join('')}
             </div>
           </div>
