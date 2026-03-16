@@ -898,7 +898,7 @@ const App = (() => {
         </div>
 
         <div class="fixed bottom-0 left-0 right-0 z-30 px-5 pb-6 pt-3 bg-gradient-to-t from-zinc-950 via-zinc-950/95 to-transparent" style="padding-bottom: calc(var(--safe-bottom, 0px) + 24px);">
-          <button onclick="App.startWorkout(${i})" class="w-full bg-zinc-200 text-zinc-950 font-semibold rounded-2xl py-4 text-[15px] active:bg-zinc-300 transition min-h-[52px] shadow-lg">
+          <button onclick="App.confirmStartWorkout(${i})" class="w-full bg-zinc-200 text-zinc-950 font-semibold rounded-2xl py-4 text-[15px] active:bg-zinc-300 transition min-h-[52px] shadow-lg">
             Iniciar entrenamiento
           </button>
         </div>
@@ -1015,19 +1015,59 @@ const App = (() => {
     if (set.done && descanso > 0) startTimer(descanso);
     renderWorkout();
   }
+  function confirmStartWorkout(i) {
+    const r = getRoutines()[i];
+    showConfirmModal(
+      'Iniciar entrenamiento',
+      `Vas a comenzar "${r.nombre}" con ${r.bloques.reduce((s, b) => s + b.ejercicios.length, 0)} ejercicios.`,
+      () => startWorkout(i),
+      null,
+      'Comenzar'
+    );
+  }
   function confirmExit() {
-    const has = Object.values(state.workoutData).some(s => s.some(x => x.done));
-    if (has) showConfirmModal('Salir del entrenamiento', 'Los datos completados se guardarán.', () => { saveWorkoutToHistory(); updateTabBar('train'); renderHome(); }, () => { updateTabBar('train'); renderHome(); }, 'Guardar y salir', 'Descartar');
-    else { updateTabBar('train'); renderHome(); }
+    showConfirmModal(
+      'Cancelar entrenamiento',
+      'Se perderá todo el progreso de esta sesión. No se guardará nada.',
+      () => { stopTimer(); updateTabBar('train'); renderHome(); },
+      null,
+      'Salir sin guardar'
+    );
   }
   function finishWorkout() {
-    const has = Object.values(state.workoutData).some(s => s.some(x => x.done));
-    if (!has) { showConfirmModal('Sin datos', 'No hay series completadas.', () => { closeModal(); updateTabBar('train'); renderHome(); }, null, 'OK'); return; }
+    // Sync DOM values to state
     for (const [name, sets] of Object.entries(state.workoutData)) sets.forEach((s, i) => {
       const kg = document.getElementById(`kg-${escId(name)}-${i}`), rp = document.getElementById(`reps-${escId(name)}-${i}`);
       if (kg) s.kg = parseFloat(kg.value) || s.kg; if (rp) s.reps = parseFloat(rp.value) || s.reps;
     });
-    saveWorkoutToHistory(); stopTimer(); renderSummary();
+    const has = Object.values(state.workoutData).some(s => s.some(x => x.done));
+    if (!has) {
+      showConfirmModal('Sin datos', 'No completaste ninguna serie.', () => { closeModal(); }, null, 'Entendido');
+      return;
+    }
+    const allDone = Object.values(state.workoutData).every(s => s.every(x => x.done));
+    if (allDone) {
+      showConfirmModal(
+        'Finalizar entrenamiento',
+        'Todos los ejercicios completados. Se guardará la sesión.',
+        () => { markIncompleteAsZero(); saveWorkoutToHistory(); stopTimer(); renderSummary(); },
+        null,
+        'Finalizar'
+      );
+    } else {
+      showConfirmModal(
+        'Finalizar entrenamiento',
+        'Hay ejercicios sin completar. Se guardarán en 0 las series no realizadas.',
+        () => { markIncompleteAsZero(); saveWorkoutToHistory(); stopTimer(); renderSummary(); },
+        null,
+        'Finalizar igualmente'
+      );
+    }
+  }
+  function markIncompleteAsZero() {
+    for (const sets of Object.values(state.workoutData)) {
+      sets.forEach(s => { if (!s.done) { s.kg = 0; s.reps = 0; s.done = true; } });
+    }
   }
 
   // ===========================================================
@@ -1252,7 +1292,7 @@ const App = (() => {
   document.readyState === 'loading' ? document.addEventListener('DOMContentLoaded', init) : init();
 
   return {
-    renderHome, showRoutineDetail, startWorkout, updateSet, toggleSet, confirmExit, finishWorkout, openVideo,
+    renderHome, showRoutineDetail, confirmStartWorkout, startWorkout, updateSet, toggleSet, confirmExit, finishWorkout, markIncompleteAsZero, openVideo,
     showHistoryModal, showExportModal, closeModal, skipTimer, importData,
     newRoutine, editRoutine, duplicateRoutine, deleteRoutineConfirm, cancelEditor, saveEditor, deleteFromEditor,
     toggleIconPicker, pickIcon, updateBlock, addBlock, removeBlock, addExercise, removeExercise, moveExercise, updateExercise, onExerciseInput, pickExercise,
