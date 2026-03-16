@@ -309,18 +309,31 @@ const App = (() => {
   function getIcon(key) { return ICONS[key] || ICONS.dumbbell; }
 
   // ---- TIMER ----
+  let timerEndTime = 0;
   function startTimer(seconds) {
-    stopTimer(); timerSeconds = seconds;
+    stopTimer();
+    timerEndTime = Date.now() + seconds * 1000;
+    timerSeconds = seconds;
     $('timer-banner').classList.remove('hidden');
     $('timer-text').textContent = formatTime(timerSeconds);
-    timerInterval = setInterval(() => {
-      timerSeconds--;
-      if (timerSeconds <= 0) { stopTimer(); if (navigator.vibrate) navigator.vibrate([200, 100, 200]); return; }
-      $('timer-text').textContent = formatTime(timerSeconds);
-    }, 1000);
+    timerInterval = setInterval(tickTimer, 250);
   }
-  function stopTimer() { if (timerInterval) clearInterval(timerInterval); timerInterval = null; const b = $('timer-banner'); if (b) b.classList.add('hidden'); }
+  function tickTimer() {
+    const remaining = Math.ceil((timerEndTime - Date.now()) / 1000);
+    if (remaining <= 0) {
+      stopTimer();
+      if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+      return;
+    }
+    if (remaining !== timerSeconds) {
+      timerSeconds = remaining;
+      const el = $('timer-text');
+      if (el) el.textContent = formatTime(timerSeconds);
+    }
+  }
+  function stopTimer() { if (timerInterval) clearInterval(timerInterval); timerInterval = null; timerEndTime = 0; const b = $('timer-banner'); if (b) b.classList.add('hidden'); }
   function skipTimer() { stopTimer(); }
+  document.addEventListener('visibilitychange', () => { if (!document.hidden && timerEndTime > 0) tickTimer(); });
 
   // ---- TAB BAR ----
   function updateTabBar(activeTab, visible = true) {
